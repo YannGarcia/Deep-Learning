@@ -7,6 +7,12 @@ LABEL description="Keras Deep Leaning Ubuntu image"
 ENV TERM=linux \
     HOSTNAME=docker-keras
 
+<<<<<<< HEAD
+=======
+ARG ARG_KAGGLE_USERNAME=yanngarcia
+ARG ARG_KAGGLE_KEY
+
+>>>>>>> 13dfa990e926953c400191b37bca1036884024f7
 RUN echo "docker-STF-dev" > /etc/hostname \
     && DEBIAN_FRONTEND=noninteractive apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
@@ -85,6 +91,7 @@ RUN echo "docker-STF-dev" > /etc/hostname \
     && echo 'export LD_LIBRARY_PATH=${HOME}/lib:$LD_LIBRARY_PATH' >> /etc/profile \
     && echo 'export PATH=${HOME}/bin:$PATH' >> /etc/profile \
     && echo 'cd ${HOME}' >> /etc/profile \
+<<<<<<< HEAD
     && cd /home/yann \
     && echo "" >> ./.profile \
     && echo 'export HOME=/home/yann' >> ./.bashrc \
@@ -108,6 +115,26 @@ RUN kaggle datasets download nickuzmenkov/nih-chest-xrays-tfrecords \
 #    && kaggle datasets download iarunava/cell-images-for-detecting-malaria \
 #    && unzip cell-images-for-detecting-malaria.zip && rm cell-images-for-detecting-malaria.zip \
 #    && cd - \
+=======
+    && echo ". ./devenv.bash" >> /etc/profile \
+    && cd /home/yann \
+    && echo "" >> ./.profile \
+    && echo 'export HOME=/home/yann' >> ./.profile \
+    && echo 'export LD_LIBRARY_PATH=${HOME}/lib:$LD_LIBRARY_PATH' >> ./.profile \
+    && echo 'export PATH=${HOME}/bin:$PATH' >> ./.profile \
+    && echo 'export KAGGLE_USERNAME=$ARG_KAGGLE_USERNAME' >> ./.profile \
+    && echo 'export KAGGLE_KEY=$ARG_KAGGLE_USERNAME' >> ./.profile \
+    && echo 'cd ${HOME}' >> ./.profile \
+    && echo ". ./devenv.bash" >> ./.profile \
+    && mkdir -p bin lib include tmp frameworks docs man dev notebooks \
+    && chown -R yann:yann * \
+    && cd notebooks \
+    && kaggle datasets download nickuzmenkov/nih-chest-xrays-tfrecords \
+    && unzip nih-chest-xrays-tfrecords.zip && rm nih-chest-xrays-tfrecords.zip \
+    && kaggle datasets download iarunava/cell-images-for-detecting-malaria \
+    && unzip cell-images-for-detecting-malaria.zip && rm cell-images-for-detecting-malaria.zip \
+    && cd - \
+>>>>>>> 13dfa990e926953c400191b37bca1036884024f7
 
 
 EXPOSE 22 80 443 8888
