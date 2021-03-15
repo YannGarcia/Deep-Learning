@@ -7,12 +7,9 @@ LABEL description="Keras Deep Leaning Ubuntu image"
 ENV TERM=linux \
     HOSTNAME=docker-keras
 
-<<<<<<< HEAD
-=======
-ARG ARG_KAGGLE_USERNAME=yanngarcia
+ARG ARG_KAGGLE_USERNAME
 ARG ARG_KAGGLE_KEY
 
->>>>>>> 13dfa990e926953c400191b37bca1036884024f7
 RUN echo "docker-STF-dev" > /etc/hostname \
     && DEBIAN_FRONTEND=noninteractive apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
@@ -53,6 +50,7 @@ RUN echo "docker-STF-dev" > /etc/hostname \
       libtool \
       libxml2-dev \
       libxml2-utils \
+      libxslt-dev \
       libyaml-dev \
       lsof \
       net-tools \
@@ -87,54 +85,34 @@ RUN echo "docker-STF-dev" > /etc/hostname \
     && echo "yann:yann" | chpasswd \
     && adduser yann sudo \
     && echo "" >> /etc/profile \
-    && echo 'export HOME=/home/yann' >> /etc/profile \
-    && echo 'export LD_LIBRARY_PATH=${HOME}/lib:$LD_LIBRARY_PATH' >> /etc/profile \
-    && echo 'export PATH=${HOME}/bin:$PATH' >> /etc/profile \
-    && echo 'cd ${HOME}' >> /etc/profile \
-<<<<<<< HEAD
-    && cd /home/yann \
-    && echo "" >> ./.profile \
-    && echo 'export HOME=/home/yann' >> ./.bashrc \
-    && echo 'export LD_LIBRARY_PATH=${HOME}/lib:$LD_LIBRARY_PATH' >> ./.bashrc \
-    && echo 'export PATH=${HOME}/bin:$PATH' >> ./.bashrc \
-    && echo 'cd ${HOME}' >> ./.bashrc \
-    && mkdir -p bin lib include tmp frameworks docs man dev notebooks \
-    && chown -R yann:yann * \
-    && cd notebooks \
-
-
-RUN --mount=type=secret,id=kaggle_key_json,dst=/home/yann/home/yann/.kaggle/kaggle.json cat /kaggleKeyAPI.json \
-    && chmod 600 /home/yann/.kaggle/kaggle.json \
-    && export KAGGLE_CONFIG_DIR=/home/yann/.kaggle \
-
-
-RUN kaggle datasets download nickuzmenkov/nih-chest-xrays-tfrecords \
-
-
-#    && unzip nih-chest-xrays-tfrecords.zip && rm nih-chest-xrays-tfrecords.zip \
-#    && kaggle datasets download iarunava/cell-images-for-detecting-malaria \
-#    && unzip cell-images-for-detecting-malaria.zip && rm cell-images-for-detecting-malaria.zip \
-#    && cd - \
-=======
+    && echo "export HOME=/home/yann" >> /etc/profile \
+    && echo "export LD_LIBRARY_PATH=${HOME}/lib:$LD_LIBRARY_PATH" >> /etc/profile \
+    && echo "export PATH=${HOME}/bin:$PATH" >> /etc/profile \
+    && echo "cd ${HOME}" >> /etc/profile \
     && echo ". ./devenv.bash" >> /etc/profile \
     && cd /home/yann \
-    && echo "" >> ./.profile \
-    && echo 'export HOME=/home/yann' >> ./.profile \
-    && echo 'export LD_LIBRARY_PATH=${HOME}/lib:$LD_LIBRARY_PATH' >> ./.profile \
-    && echo 'export PATH=${HOME}/bin:$PATH' >> ./.profile \
-    && echo 'export KAGGLE_USERNAME=$ARG_KAGGLE_USERNAME' >> ./.profile \
-    && echo 'export KAGGLE_KEY=$ARG_KAGGLE_USERNAME' >> ./.profile \
-    && echo 'cd ${HOME}' >> ./.profile \
-    && echo ". ./devenv.bash" >> ./.profile \
+    && echo "" >> ./.bashrc \
+    && echo "export HOME=/home/yann" >> ./.bashrc \
+    && echo "export LD_LIBRARY_PATH=${HOME}/lib:$LD_LIBRARY_PATH" >> ./.bashrc \
+    && echo "export PATH=${HOME}/bin:$PATH" >> ./.bashrc \
+    && echo "cd ${HOME}" >> ./.bashrc \
+    && echo ". ./devenv.bash" >> ./.bashrc \
     && mkdir -p bin lib include tmp frameworks docs man dev notebooks \
     && chown -R yann:yann * \
     && cd notebooks \
-    && kaggle datasets download nickuzmenkov/nih-chest-xrays-tfrecords \
-    && unzip nih-chest-xrays-tfrecords.zip && rm nih-chest-xrays-tfrecords.zip \
-    && kaggle datasets download iarunava/cell-images-for-detecting-malaria \
-    && unzip cell-images-for-detecting-malaria.zip && rm cell-images-for-detecting-malaria.zip \
-    && cd - \
->>>>>>> 13dfa990e926953c400191b37bca1036884024f7
+    && echo $ARG_KAGGLE_USERNAME \
+    && echo $ARG_KAGGLE_KEY \
+    && export KAGGLE_USERNAME=$ARG_KAGGLE_USERNAME \
+    && export KAGGLE_KEY=$ARG_KAGGLE_KEY \
+    && echo $KAGGLE_USERNAME \
+    && echo $KAGGLE_KEY \
+
+
+RUN kaggle competitions download -c hpa-single-cell-image-classification \
+
+
+#    && hpa-single-cell-image-classification.zip && rm hpa-single-cell-image-classification.zip \
+#    && cd - \
 
 
 EXPOSE 22 80 443 8888

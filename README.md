@@ -10,7 +10,7 @@ Note: You need to create an account on Kaggle and obtain you Kaggle Key API to d
 
 ### Build the image ###
 
-```docker build --no-cache --tag keras.devel --file .\Dockerfile.deep_learning.keras.devel --secret id=kaggle_key_json,src=kaggleKeyAPI.json .```
+```docker build --no-cache --tag keras.devel --file .\Dockerfile.deep_learning.keras.devel --build-arg ARG_KAGGLE_USERNAME=<Your Kaggle Username> --build-arg ARG_KAGGLE_KEY=<Your Kaggle Token> .```
 
 ### Run the container ###
 
